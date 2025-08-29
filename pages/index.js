@@ -466,7 +466,7 @@ export default function Home() {
             name={name}
             value={formData[name]}
             onChange={handleChange}
-            options={["টয়লেট প্যান", "রিং স্ল্যাব"]}
+            options={["টয়লেট", "টিউবওয়েল"]}
             error={errors[name]}
           />
         );
