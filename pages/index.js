@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import { useState } from "react";
@@ -532,8 +533,8 @@ export default function Home() {
     <main className="min-h-screen bg-gradient-to-tr from-blue-300 via-purple-300 to-pink-300 flex flex-col items-center pb-12 px-4 md:px-8">
       {/* Hero Section */}
       <section className="relative w-full max-w-6xl mt-8 md:mt-12 rounded-3xl overflow-hidden shadow-xl">
-        <Image
-          src="/ngo registration and civil society.png"
+        <img
+          src="/ngo_registration_and_civil_society.png"
           alt="Banner"
           fill
           className="object-cover brightness-90"
@@ -542,7 +543,7 @@ export default function Home() {
         />
         <div className="absolute inset-0 bg-gradient-to-tr from-black/40 via-transparent to-black/30" />
         <div className="absolute left-1/2 bottom-4 md:bottom-8 transform -translate-x-1/2 rounded-full border-4 border-white shadow-lg overflow-hidden w-24 h-24 md:w-32 md:h-32 bg-white">
-          <Image
+          <img
             src="/grok_image_x9u3x4t.jpg"
             alt="Logo"
             fill
