@@ -266,106 +266,153 @@ export default function Home() {
         );
       case "dob":
         return (
-          <label key={name} className="flex flex-col">
+          <div key={name} className="flex flex-col">
             <span className="text-gray-700 font-medium pb-2">জন্ম তারিখ *</span>
-            <DatePicker
-              selected={formData.dob ? new Date(formData.dob) : null}
-              onChange={(date) =>
-                setFormData({
-                  ...formData,
-                  dob: date ? date.toISOString().split("T")[0] : "",
-                })
-              }
-              dateFormat="dd/MM/yyyy"
-              placeholderText="জন্ম তারিখ নির্বাচন করুন"
-              className={`h-12 px-4 border rounded-lg focus:outline-none focus:ring-2 transition duration-300 bg-white hover:shadow-lg w-full text-gray-500
-          ${
-            errors[name]
-              ? "border-red-500 focus:ring-red-400"
-              : "border-gray-300 focus:ring-blue-400"
-          }
-        `}
-              showYearDropdown
-              scrollableYearDropdown
-              yearDropdownItemNumber={100}
-              showMonthDropdown
-              dropdownMode="select"
-              locale="bn"
-              renderCustomHeader={({
-                date,
-                changeYear,
-                changeMonth,
-                decreaseMonth,
-                increaseMonth,
-                prevMonthButtonDisabled,
-                nextMonthButtonDisabled,
-              }) => (
-                <div className="flex justify-between items-center px-4 py-2 bg-blue-50">
-                  <button
-                    onClick={decreaseMonth}
-                    disabled={prevMonthButtonDisabled}
-                    className="p-2 rounded hover:bg-blue-100 disabled:opacity-50"
-                  >
-                    {"<"}
-                  </button>
-                  <div className="flex gap-2">
-                    <select
-                      value={date.getMonth()}
-                      onChange={({ target: { value } }) =>
-                        changeMonth(parseInt(value))
-                      }
-                      className="px-2 py-1 border rounded"
+            <div
+              className={`relative border rounded-lg transition duration-300 bg-white hover:shadow-lg
+        ${
+          errors[name]
+            ? "border-red-500"
+            : "border-gray-300 focus-within:ring-2 focus-within:ring-blue-400"
+        }`}
+            >
+              <DatePicker
+                selected={formData.dob ? new Date(formData.dob) : null}
+                onChange={(date) =>
+                  setFormData({
+                    ...formData,
+                    dob: date ? date.toISOString().split("T")[0] : "",
+                  })
+                }
+                dateFormat="dd/MM/yyyy"
+                placeholderText="জন্ম তারিখ নির্বাচন করুন"
+                className="w-full h-12 px-4 pr-10 bg-transparent outline-none text-gray-700"
+                showYearDropdown
+                scrollableYearDropdown
+                yearDropdownItemNumber={100}
+                showMonthDropdown
+                dropdownMode="select"
+                peekNextMonth
+                showMonthYearDropdown
+                isClearable
+                clearButtonClassName="after:content-['✕'] after:text-red-500 after:text-lg"
+                renderCustomHeader={({
+                  date,
+                  changeYear,
+                  changeMonth,
+                  decreaseMonth,
+                  increaseMonth,
+                  prevMonthButtonDisabled,
+                  nextMonthButtonDisabled,
+                }) => (
+                  <div className="flex items-center justify-between px-2 py-2">
+                    <button
+                      onClick={decreaseMonth}
+                      disabled={prevMonthButtonDisabled}
+                      type="button"
+                      className="p-1 text-gray-600 hover:bg-gray-100 rounded disabled:opacity-30 disabled:cursor-not-allowed"
                     >
-                      {[
-                        "জানুয়ারী",
-                        "ফেব্রুয়ারী",
-                        "মার্চ",
-                        "এপ্রিল",
-                        "মে",
-                        "জুন",
-                        "জুলাই",
-                        "আগস্ট",
-                        "সেপ্টেম্বর",
-                        "অক্টোবর",
-                        "নভেম্বর",
-                        "ডিসেম্বর",
-                      ].map((option, index) => (
-                        <option key={option} value={index}>
-                          {option}
-                        </option>
-                      ))}
-                    </select>
-                    <select
-                      value={date.getFullYear()}
-                      onChange={({ target: { value } }) =>
-                        changeYear(parseInt(value))
-                      }
-                      className="px-2 py-1 border rounded"
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                        className="w-5 h-5"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                    </button>
+
+                    <div className="flex gap-2">
+                      <select
+                        value={date.getMonth()}
+                        onChange={({ target: { value } }) =>
+                          changeMonth(parseInt(value))
+                        }
+                        className="px-2 py-1 border rounded text-sm"
+                      >
+                        {[
+                          "জানুয়ারী",
+                          "ফেব্রুয়ারী",
+                          "মার্চ",
+                          "এপ্রিল",
+                          "মে",
+                          "জুন",
+                          "জুলাই",
+                          "আগস্ট",
+                          "সেপ্টেম্বর",
+                          "অক্টোবর",
+                          "নভেম্বর",
+                          "ডিসেম্বর",
+                        ].map((option, index) => (
+                          <option key={option} value={index}>
+                            {option}
+                          </option>
+                        ))}
+                      </select>
+
+                      <select
+                        value={date.getFullYear()}
+                        onChange={({ target: { value } }) =>
+                          changeYear(parseInt(value))
+                        }
+                        className="px-2 py-1 border rounded text-sm"
+                      >
+                        {Array.from(
+                          { length: 100 },
+                          (_, i) => new Date().getFullYear() - 80 + i
+                        ).map((year) => (
+                          <option key={year} value={year}>
+                            {year}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+
+                    <button
+                      onClick={increaseMonth}
+                      disabled={nextMonthButtonDisabled}
+                      type="button"
+                      className="p-1 text-gray-600 hover:bg-gray-100 rounded disabled:opacity-30 disabled:cursor-not-allowed"
                     >
-                      {Array.from(
-                        { length: 100 },
-                        (_, i) => new Date().getFullYear() - 80 + i
-                      ).map((year) => (
-                        <option key={year} value={year}>
-                          {year}
-                        </option>
-                      ))}
-                    </select>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                        className="w-5 h-5"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                    </button>
                   </div>
-                  <button
-                    onClick={increaseMonth}
-                    disabled={nextMonthButtonDisabled}
-                    className="p-2 rounded hover:bg-blue-100 disabled:opacity-50"
-                  >
-                    {">"}
-                  </button>
-                </div>
-              )}
-            />
+                )}
+              />
+              <div className="absolute right-3 top-3 text-gray-400 pointer-events-none">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                  className="w-5 h-5"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M5.75 2a.75.75 0 01.75.75V4h7V2.75a.75.75 0 011.5 0V4h.25A2.75 2.75 0 0118 6.75v8.5A2.75 2.75 0 0115.25 18H4.75A2.75 2.75 0 012 15.25v-8.5A2.75 2.75 0 014.75 4H5V2.75A.75.75 0 015.75 2zm-1 5.5c-.69 0-1.25.56-1.25 1.25v6.5c0 .69.56 1.25 1.25 1.25h10.5c.69 0 1.25-.56 1.25-1.25v-6.5c0-.69-.56-1.25-1.25-1.25H4.75z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              </div>
+            </div>
             {errors[name] && (
               <span className="text-red-500 text-sm mt-1">{errors[name]}</span>
             )}
-          </label>
+          </div>
         );
 
       case "phone":
@@ -530,7 +577,7 @@ export default function Home() {
             name={name}
             value={formData[name]}
             onChange={handleChange}
-            options={["স্যানিটারি", "কাঁচা", "অন্যান্য"]}
+            options={["শৌচাগার নেই", "কাঁচা", "আধুনিক"]}
             error={errors[name]}
           />
         );
