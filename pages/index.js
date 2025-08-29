@@ -190,7 +190,7 @@ export default function Home() {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             pendingUserId,
-            amount: 100, // Application Fee
+            amount: 250, // Application Fee
           }),
         }
       );
@@ -743,7 +743,7 @@ function CheckboxGroup({ label, name, options, selected, onChange, error }) {
       <legend className="text-gray-700 font-medium pb-2">{label}</legend>
       <div className="flex flex-wrap gap-4">
         {options.map((opt) => (
-          <label key={opt} className="flex items-center gap-2">
+          <label key={opt} className="flex items-center gap-2 text-gray-700">
             <input
               type="checkbox"
               name={name}
@@ -754,7 +754,7 @@ function CheckboxGroup({ label, name, options, selected, onChange, error }) {
                 ${error ? "border-red-500" : ""}
               `}
             />
-            <span>{opt}</span>
+            <span className="text-gray-700">{opt}</span>
           </label>
         ))}
       </div>

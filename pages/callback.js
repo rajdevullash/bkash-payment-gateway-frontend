@@ -3,33 +3,54 @@ import { useEffect, useState } from "react";
 
 export default function Callback() {
   const router = useRouter();
-  const { status, paymentID } = router.query;
+  const { status, paymentID, signature, apiVersion } = router.query;
   const [loading, setLoading] = useState(true);
   const [countdown, setCountdown] = useState(5);
 
   useEffect(() => {
-    if (status) {
-      setLoading(false);
+    if (status && paymentID) {
+      // 🔥 Call your backend callback API
+      const callCallbackAPI = async () => {
+        try {
+          const res = await fetch(
+            `https://bkash-project-backend.vercel.app/api/v1/payment/callback?paymentID=${paymentID}&status=${status}&signature=${signature}&apiVersion=${apiVersion}`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+            }
+          );
+          const data = await res.json();
+          console.log("✅ Callback API Response:", data);
+        } catch (error) {
+          console.error("❌ Error calling callback API:", error);
+        } finally {
+          setLoading(false);
 
-      // Start countdown
-      const timer = setInterval(() => {
-        setCountdown((prev) => {
-          if (prev <= 1) {
-            clearInterval(timer);
-            router.push("/"); // redirect to homepage
-          }
-          return prev - 1;
-        });
-      }, 1000);
+          // Start countdown after API call finishes
+          const timer = setInterval(() => {
+            setCountdown((prev) => {
+              if (prev <= 1) {
+                clearInterval(timer);
+                router.push("/"); // redirect to homepage
+              }
+              return prev - 1;
+            });
+          }, 1000);
 
-      return () => clearInterval(timer);
+          return () => clearInterval(timer);
+        }
+      };
+
+      callCallbackAPI();
     }
-  }, [status, router]);
+  }, [status, paymentID, signature, apiVersion, router]);
 
   if (loading) {
     return (
       <main className="min-h-screen flex justify-center items-center">
-        <p>Loading...</p>
+        <p>Processing your payment...</p>
       </main>
     );
   }
