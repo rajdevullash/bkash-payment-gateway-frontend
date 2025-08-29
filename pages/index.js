@@ -276,15 +276,91 @@ export default function Home() {
                   dob: date ? date.toISOString().split("T")[0] : "",
                 })
               }
-              dateFormat="yyyy-MM-dd"
+              dateFormat="dd/MM/yyyy"
               placeholderText="জন্ম তারিখ নির্বাচন করুন"
-              className={`h-12 px-4 border rounded-lg focus:outline-none focus:ring-2 transition duration-300 bg-white hover:shadow-lg w-full text-gray-700
+              className={`h-12 px-4 border rounded-lg focus:outline-none focus:ring-2 transition duration-300 bg-white hover:shadow-lg w-full text-gray-500
           ${
             errors[name]
               ? "border-red-500 focus:ring-red-400"
               : "border-gray-300 focus:ring-blue-400"
           }
         `}
+              showYearDropdown
+              scrollableYearDropdown
+              yearDropdownItemNumber={100}
+              showMonthDropdown
+              dropdownMode="select"
+              locale="bn"
+              renderCustomHeader={({
+                date,
+                changeYear,
+                changeMonth,
+                decreaseMonth,
+                increaseMonth,
+                prevMonthButtonDisabled,
+                nextMonthButtonDisabled,
+              }) => (
+                <div className="flex justify-between items-center px-4 py-2 bg-blue-50">
+                  <button
+                    onClick={decreaseMonth}
+                    disabled={prevMonthButtonDisabled}
+                    className="p-2 rounded hover:bg-blue-100 disabled:opacity-50"
+                  >
+                    {"<"}
+                  </button>
+                  <div className="flex gap-2">
+                    <select
+                      value={date.getMonth()}
+                      onChange={({ target: { value } }) =>
+                        changeMonth(parseInt(value))
+                      }
+                      className="px-2 py-1 border rounded"
+                    >
+                      {[
+                        "জানুয়ারী",
+                        "ফেব্রুয়ারী",
+                        "মার্চ",
+                        "এপ্রিল",
+                        "মে",
+                        "জুন",
+                        "জুলাই",
+                        "আগস্ট",
+                        "সেপ্টেম্বর",
+                        "অক্টোবর",
+                        "নভেম্বর",
+                        "ডিসেম্বর",
+                      ].map((option, index) => (
+                        <option key={option} value={index}>
+                          {option}
+                        </option>
+                      ))}
+                    </select>
+                    <select
+                      value={date.getFullYear()}
+                      onChange={({ target: { value } }) =>
+                        changeYear(parseInt(value))
+                      }
+                      className="px-2 py-1 border rounded"
+                    >
+                      {Array.from(
+                        { length: 100 },
+                        (_, i) => new Date().getFullYear() - 80 + i
+                      ).map((year) => (
+                        <option key={year} value={year}>
+                          {year}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <button
+                    onClick={increaseMonth}
+                    disabled={nextMonthButtonDisabled}
+                    className="p-2 rounded hover:bg-blue-100 disabled:opacity-50"
+                  >
+                    {">"}
+                  </button>
+                </div>
+              )}
             />
             {errors[name] && (
               <span className="text-red-500 text-sm mt-1">{errors[name]}</span>
